@@ -1,2 +1,2 @@
 # stanford-algorithms-specialization
-Programming Assignments from Stanford University's Coursera Algorithms course
+My programming assignments solutions for Stanford University's Coursera Algorithms Specialization with Unit Tests

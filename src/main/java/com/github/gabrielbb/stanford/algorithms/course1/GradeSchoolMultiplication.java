@@ -2,14 +2,36 @@ package com.github.gabrielbb.stanford.algorithms.course1;
 
 public class GradeSchoolMultiplication {
 
-    public long solve(long a, long b) {
-
-        long ad = a % 10;
-        long bd = b % 10;
-
-        long sum = ad + bd;
-
+    public static long solve(long a, long b, int base) {
         
-        return 0;
+        if(b / base == 0)
+            return 0;
+
+        final int digit = (int) (b / base) % 10; 
+
+        long result = 0;
+        int innerBase = 1;
+        int remaining = 0;
+
+        while(a / innerBase > 0) {
+
+            int singleResult = (int) (digit * (a / innerBase % 10)) + remaining;
+            remaining = 0;
+
+            if(singleResult >= 10) {
+                remaining = singleResult / 10;
+                result += singleResult % 10 * innerBase;
+            } else {
+                result += singleResult * innerBase;
+            }
+
+            innerBase *= 10;
+        }
+
+        if(remaining > 0) {
+            result += remaining * innerBase;
+        }
+
+        return (result * base) + solve(a, b, base * 10);
     }
 }

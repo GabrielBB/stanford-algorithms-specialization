@@ -1,6 +1,8 @@
 package com.github.gabrielbb.stanford.algorithms;
 
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertEquals;
+
+import com.github.gabrielbb.stanford.algorithms.course1.GradeSchoolMultiplication;
 
 import org.junit.Test;
 
@@ -13,8 +15,9 @@ public class Course1Tests
      * Rigorous Test :-)
      */
     @Test
-    public void shouldAnswerWithTrue()
+    public void testGradeSchoolMultiplication()
     {
-        assertTrue( true );
+        assertEquals(448, GradeSchoolMultiplication.solve(32, 14, 1));
+        assertEquals(27498843, GradeSchoolMultiplication.solve(3247, 8469, 1));
     }
 }

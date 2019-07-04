@@ -1,37 +1,38 @@
 package com.github.gabrielbb.stanford.algorithms.course1;
 
+import java.math.BigInteger;
+
 public class GradeSchoolMultiplication {
 
-    public static long solve(long a, long b, int base) {
-        
-        if(b / base == 0)
-            return 0;
+    public static String solve(String a, String b) {
+        return String.valueOf(solve(a, b, b.length() - 1, new StringBuilder("1")));
+    }
 
-        final int digit = (int) (b / base) % 10; 
+    private static BigInteger solve(String a, String b, int bIndex, StringBuilder base) {
 
-        long result = 0;
-        int innerBase = 1;
+        if (bIndex < 0)
+            return BigInteger.ZERO;
+
+        final int currentB = Character.getNumericValue(b.charAt(bIndex));
+
+        BigInteger abTotal = BigInteger.ZERO;
         int remaining = 0;
+        StringBuilder innerBase = new StringBuilder("1");
 
-        while(a / innerBase > 0) {
+        for (int i = a.length() - 1; i >= 0; i--) {
+            int ab = currentB * Character.getNumericValue(a.charAt(i)) + remaining;
+            remaining = ab / 10;
 
-            int singleResult = (int) (digit * (a / innerBase % 10)) + remaining;
-            remaining = 0;
+            abTotal = abTotal.add(
+                    BigInteger.valueOf(remaining > 0 ? ab % 10 : ab).multiply(new BigInteger(innerBase.toString())));
 
-            if(singleResult >= 10) {
-                remaining = singleResult / 10;
-                result += singleResult % 10 * innerBase;
-            } else {
-                result += singleResult * innerBase;
-            }
-
-            innerBase *= 10;
+            innerBase.append("0");
         }
 
-        if(remaining > 0) {
-            result += remaining * innerBase;
+        if (remaining > 0) {
+            abTotal = abTotal.add(BigInteger.valueOf(remaining).multiply(new BigInteger(innerBase.toString())));
         }
 
-        return (result * base) + solve(a, b, base * 10);
+        return abTotal.multiply(new BigInteger(base.toString())).add(solve(a, b, --bIndex, base.append("0")));
     }
 }

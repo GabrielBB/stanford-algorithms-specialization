@@ -2,15 +2,52 @@ package com.github.gabrielbb.stanford.algorithms;
 
 import static org.junit.Assert.assertEquals;
 
+import java.io.IOException;
+import java.net.URISyntaxException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.Scanner;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import com.github.gabrielbb.stanford.algorithms.course1.CountingInversions;
 import com.github.gabrielbb.stanford.algorithms.course1.GradeSchoolMultiplication;
+import com.github.gabrielbb.stanford.algorithms.course1.KargerContractionAlgorithm;
 
 import org.junit.Test;
 
 public class Course1Tests {
+
+    @Test
+    public void testKargerContractionAlgorithm() throws IOException, URISyntaxException {
+        List<String> lines = Files
+                .readAllLines(Paths.get(getClass().getClassLoader().getResource("karger.txt").toURI()));
+
+        int minCut = Integer.MAX_VALUE;
+
+        for (int i = 1; i <= 200; i++) {
+            int result = KargerContractionAlgorithm.getEdgesLeftAfterContracting(getGraph(lines));
+            minCut = Math.min(minCut, result);
+        }
+
+        assertEquals(minCut, 17);
+    }
+
+    private Map<String, List<String>> getGraph(List<String> lines) {
+        var map = new HashMap<String, List<String>>();
+
+        for (String line : lines) {
+            String[] split = line.split("\t");
+            map.put(split[0], new ArrayList<>());
+
+            for (int i = 1; i < split.length; i++)
+                if (!split[i].equals(split[0]))
+                    map.get(split[0]).add(split[i]);
+        }
+
+        return map;
+    }
 
     @Test
     public void testGradeSchoolMultiplication() {
@@ -23,18 +60,13 @@ public class Course1Tests {
     }
 
     @Test
-    public void testCountingInversions() {
-        try (Scanner s = new Scanner(
-                CountingInversions.class.getClassLoader().getResourceAsStream("counting_inversions_test_case.txt"))) {
+    public void testCountingInversions() throws IOException, URISyntaxException {
 
-            var numbers = new ArrayList<Integer>();
-            
-            while (s.hasNextLine()) {
-                numbers.add(Integer.parseInt(s.nextLine()));
-            }
+        int[] array = Files
+                .readAllLines(
+                        Paths.get(getClass().getClassLoader().getResource("counting_inversions_test_case.txt").toURI()))
+                .stream().mapToInt(Integer::parseInt).toArray();
 
-            assertEquals(2407905288L,
-                    CountingInversions.countInversions(numbers.stream().mapToInt(Integer::intValue).toArray()));
-        }
+        assertEquals(2407905288L, CountingInversions.countInversions(array));
     }
 }

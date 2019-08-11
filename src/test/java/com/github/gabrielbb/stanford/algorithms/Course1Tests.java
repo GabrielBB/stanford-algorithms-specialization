@@ -22,7 +22,7 @@ public class Course1Tests {
     @Test
     public void testKargerContractionAlgorithm() throws IOException, URISyntaxException {
         List<String> lines = Files
-                .readAllLines(Paths.get(getClass().getClassLoader().getResource("karger.txt").toURI()));
+                .readAllLines(Paths.get(getClass().getClassLoader().getResource("course1/karger.txt").toURI()));
 
         int minCut = Integer.MAX_VALUE;
 
@@ -64,7 +64,7 @@ public class Course1Tests {
 
         int[] array = Files
                 .readAllLines(
-                        Paths.get(getClass().getClassLoader().getResource("counting_inversions_test_case.txt").toURI()))
+                        Paths.get(getClass().getClassLoader().getResource("course1/counting_inversions_test_case.txt").toURI()))
                 .stream().mapToInt(Integer::parseInt).toArray();
 
         assertEquals(2407905288L, CountingInversions.countInversions(array));

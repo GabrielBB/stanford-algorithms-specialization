@@ -100,7 +100,7 @@ public class QuickSort {
     public static void main(String args[]) throws IOException, URISyntaxException {
         int[] arr = Files
                 .readAllLines(
-                        Paths.get(QuickSort.class.getClassLoader().getResource("QuickSort_Test_Case.txt").toURI()))
+                        Paths.get(QuickSort.class.getClassLoader().getResource("course1/QuickSort_Test_Case.txt").toURI()))
                 .stream().mapToInt(s -> Integer.parseInt(s)).toArray();
 
         System.out.println("Comparisons with LEFT Pivot: " + new QuickSort(Pivot.LEFT).sort(arr.clone(), 0, arr.length - 1));

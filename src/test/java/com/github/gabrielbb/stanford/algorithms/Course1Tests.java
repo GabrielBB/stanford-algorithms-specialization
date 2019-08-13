@@ -61,7 +61,7 @@ public class Course1Tests {
 
     @Test
     public void testCountingInversions() throws IOException, URISyntaxException {
-
+        
         int[] array = Files
                 .readAllLines(
                         Paths.get(getClass().getClassLoader().getResource("course1/counting_inversions_test_case.txt").toURI()))
